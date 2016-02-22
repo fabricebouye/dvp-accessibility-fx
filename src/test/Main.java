@@ -31,11 +31,11 @@ public final class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         // Test 1 - le controle customisé seul.
-//        final Parent root = createCustomForm();
+        final Parent root = createCustomForm();
         // Test 2 - formulaire créé par code.
 //        final Parent root = new CodeForm();
         // Test 3 - formulaire créé par FXML.
-        final Parent root = new FXMLForm();
+//        final Parent root = new FXMLForm();
         final Scene scene = new Scene(root, 500, 800);
         final URL cssURL = getClass().getResource("app.css");
         scene.getStylesheets().add(cssURL.toExternalForm());
