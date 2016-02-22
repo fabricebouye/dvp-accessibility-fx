@@ -21,6 +21,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -42,6 +43,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import test.avatar.AvatarPageFactory;
 import test.direction.Direction;
 import test.direction.DirectionSelector;
 
@@ -168,6 +170,18 @@ public final class CodeForm extends StackPane {
         colorPicker.setMaxWidth(Double.MAX_VALUE);
         GridPane.setConstraints(colorPicker, 1, 5);
         colorLabel.setLabelFor(colorPicker);
+        // Avatar.
+        final Label avatarLabel = new Label();
+        avatarLabel.setId("avatarLabel");
+        avatarLabel.setText(bundle.getString("form.avatar.label"));
+        GridPane.setConstraints(avatarLabel, 0, 6);
+        final Pagination avatarPagination = new Pagination(4);
+        avatarPagination.setId("avatarPagination");
+        avatarPagination.setTooltip(new Tooltip(bundle.getString("form.avatar.tip")));
+        avatarPagination.setMaxWidth(Double.MAX_VALUE);
+        avatarPagination.setPageFactory(new AvatarPageFactory());
+        GridPane.setConstraints(avatarPagination, 1, 6);
+        avatarLabel.setLabelFor(avatarPagination);
         // Création de la grille.
         final GridPane formGridPane = new GridPane();
         formGridPane.setId("formGridPane");
@@ -183,11 +197,11 @@ public final class CodeForm extends StackPane {
                 .collect(Collectors.toList());
         formGridPane.getColumnConstraints().setAll(columnsContraints);
         // Contraintes des lignes.
-        final List<RowConstraints> rowConstraints = IntStream.range(0, 6)
+        final List<RowConstraints> rowConstraints = IntStream.range(0, 7)
                 .mapToObj(index -> {
                     final RowConstraints rowConstraint = new RowConstraints();
-                    rowConstraint.setMinHeight(20);
-                    rowConstraint.setPrefHeight(30);
+                    rowConstraint.setMinHeight(index == 6 ? Region.USE_COMPUTED_SIZE : 20);
+                    rowConstraint.setPrefHeight(index == 6 ? Region.USE_COMPUTED_SIZE : 30);
                     rowConstraint.setVgrow(Priority.NEVER);
                     return rowConstraint;
                 })
@@ -197,7 +211,9 @@ public final class CodeForm extends StackPane {
                 surnameLabel, surnameField,
                 birthdayLabel, birthdayPicker,
                 sexLabel, sexHBox,
-                kidsLabel, kidsSpinner);
+                kidsLabel, kidsSpinner,
+                colorLabel, colorPicker,
+                avatarLabel, avatarPagination);
         final StackPane container = new StackPane();
         container.getStyleClass().add("container-pane");
         container.getChildren().add(formGridPane);
