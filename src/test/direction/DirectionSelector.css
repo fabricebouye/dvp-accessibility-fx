@@ -1,0 +1,27 @@
+.direction-selector {
+    -frame-color: mediumturquoise;
+    -focus-color: orange;
+    -cardinal-color: navy;
+    -hide-color: white;
+}
+.direction-selector .background {
+    -fx-border-color: -frame-color, -frame-color, -frame-color, -frame-color;
+    -fx-border-insets: 0px, 5px, 20px, 25px;
+    -fx-border-width: 2px, 1px, 1px, 5px;
+    -fx-shape: "M 0.99622437,0.5 A 0.49622437,0.49622437 0 0 1 0.5,0.99622437 0.49622437,0.49622437 0 0 1 0.00377563,0.5 0.49622437,0.49622437 0 0 1 0.5,0.00377563 0.49622437,0.49622437 0 0 1 0.99622437,0.5 Z";
+}
+.direction-selector:focused .background {
+    -fx-border-color: -focus-color, -frame-color, -frame-color, -frame-color;
+}
+.direction-selector .center {
+    -fx-background-color: -cardinal-color, -hide-color, -cardinal-color, -hide-color;
+    -fx-background-insets: 0px, 1px, 5px, 10px;
+    -fx-shape: "M 0.99622437,0.5 A 0.49622437,0.49622437 0 0 1 0.5,0.99622437 0.49622437,0.49622437 0 0 1 0.00377563,0.5 0.49622437,0.49622437 0 0 1 0.5,0.00377563 0.49622437,0.49622437 0 0 1 0.99622437,0.5 Z";
+}
+.direction-selector .cardinal {
+    -fx-stroke: null;
+    -fx-fill: -cardinal-color;
+}
+.direction-selector .cardinal:activated {
+    -cardinal-color: blue;
+}

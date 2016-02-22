@@ -1,0 +1,14 @@
+.root {
+    -fx-font-size: 1.2em;
+}
+.container-pane {
+    -fx-padding: 6px;
+}
+GridPane {
+    -fx-hgap: 6px;   
+    -fx-vgap: 6px;
+}
+.direction-selector {
+    -focus-color: -fx-focus-color;
+    -hide-color: -fx-base;
+}

@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.TreeItem?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import test.avatar.AvatarPageFactory?>
+<?import test.direction.DirectionSelector?>
+<?import test.direction.DirectionListCell?>
+<?import test.direction.DirectionListCellFactory?>
+
+<TabPane prefHeight="400.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="test.fxml.MyFormController">
+    <tabs>
+        <Tab text="%tab.form.label" >
+            <content>
+                <StackPane styleClass="container-pane" >
+                    <children>
+                        <GridPane id="formGridPane" fx:id="formGridPane" >
+                            <columnConstraints>        
+                                <ColumnConstraints hgrow="NEVER" />
+                                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                            </columnConstraints>
+                            <rowConstraints>        
+                                <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="NEVER" />
+                                <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="NEVER" />
+                                <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="NEVER" />
+                                <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="NEVER" />
+                                <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="NEVER" />
+                                <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="NEVER" />
+                                <RowConstraints minHeight="-1.0" prefHeight="-1.0" vgrow="NEVER" />
+                            </rowConstraints>
+                            <children>
+                                <Label id="nameLabel" fx:id="nameLabel" text="%form.name.label" />
+                                <TextField id="nameField" fx:id="nameField" promptText="%form.name.prompt" GridPane.columnIndex="1">
+                                    <tooltip>
+                                        <Tooltip text="%form.name.tip"/>
+                                    </tooltip>
+                                </TextField>
+                                <Label id="surnameLabel" fx:id="surnameLabel" text="%form.surname.label" GridPane.rowIndex="1" />
+                                <TextField id="surnameField" fx:id="surnameField" promptText="%form.surname.prompt" GridPane.columnIndex="1" GridPane.rowIndex="1" >
+                                    <tooltip>
+                                        <Tooltip text="%form.surname.tip"/>
+                                    </tooltip>                                    
+                                </TextField>
+                                <Label id="birthdayLabel" fx:id="birthdayLabel" text="%form.birthday.label" GridPane.rowIndex="2" />
+                                <DatePicker id="birthdayPicker" fx:id="birthdayPicker" promptText="%form.birthday.prompt"  maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2" > 
+                                    <tooltip>
+                                        <Tooltip text="%form.birthday.tip"/>
+                                    </tooltip>                                    
+                                </DatePicker>
+                                <Label id="sexLabel" fx:id="sexLabel" text="%form.sex.label" GridPane.rowIndex="3" />
+                                <HBox id="sexHBox" fx:id="sexHBox"  GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.hgrow="ALWAYS" > 
+                                    <children>
+                                        <RadioButton id="sexFemaleRadio" fx:id="sexFemaleRadio" text="%form.sex.female.label" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="sexToggleGroup" />
+                                            </toggleGroup>
+                                            <tooltip>
+                                                <Tooltip text="%form.sex.female.tip"/>
+                                            </tooltip>
+                                        </RadioButton>
+                                        <RadioButton id="sexMaleRadio" fx:id="sexMaleRadio" text="%form.sex.male.label" toggleGroup="$sexToggleGroup" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" >
+                                            <tooltip>
+                                                <Tooltip text="%form.sex.male.tip"/>
+                                            </tooltip>                                            
+                                        </RadioButton>
+                                    </children>
+                                </HBox>
+                                <Label id="kidsLabel" fx:id="kidsLabel" text="%form.kids.label" GridPane.rowIndex="4" />
+                                <Spinner id="kidsSpinner" fx:id="kidsSpinner" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                    <tooltip>
+                                        <Tooltip text="%form.kids.tip"/>
+                                    </tooltip>                                    
+                                </Spinner>
+                                <Label id="colorLabel" fx:id="colorLabel" text="%form.color.label" GridPane.rowIndex="5" />
+                                <ColorPicker id="colorPicker" fx:id="colorPicker" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                    <tooltip>
+                                        <Tooltip text="%form.color.tip"/>
+                                    </tooltip>                                    
+                                </ColorPicker>
+                                <Label id="avatarLabel" fx:id="avatarLabel" text="%form.avatar.label" GridPane.rowIndex="6" />
+                                <Pagination id="avatarPagination" fx:id="avatarPagination" pageCount="4" GridPane.columnIndex="1" GridPane.rowIndex="6" >
+                                    <pageFactory>
+                                        <AvatarPageFactory/>
+                                    </pageFactory>
+                                    <tooltip>
+                                        <Tooltip text="%form.avatar.tip"/>
+                                    </tooltip>   
+                                </Pagination>
+                            </children>
+                        </GridPane>    
+                    </children>
+                </StackPane>       
+            </content>
+        </Tab>
+        <Tab text="%tab.list.label" >
+            <content>
+                <StackPane styleClass="container-pane" >
+                    <children>
+                        <ListView id="dataListView" fx:id="dataListView" prefHeight="50.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" >
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="One"/>
+                                    <String fx:value="Two"/>
+                                    <String fx:value="Three"/>
+                                    <String fx:value="Four"/>
+                                    <String fx:value="Five"/>
+                                </FXCollections>
+                            </items>
+                        </ListView>            
+                    </children>
+                </StackPane>       
+            </content>
+        </Tab>
+        <Tab text="%tab.table.label" >                    
+            <content>
+                <StackPane styleClass="container-pane" >
+                    <children>
+                        <TableView id="dataTableView" fx:id="dataTableView" minHeight="50.0" prefHeight="50.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
+                            <columns>
+                                <TableColumn id="dataTableViewCol0" fx:id="dataTableViewCol0" text="%form.data.key.column" minWidth="75.0" maxWidth="75.0" />
+                                <TableColumn id="dataTableViewCol1" fx:id="dataTableViewCol1" text="%form.data.value.column" />
+                            </columns>
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="One"/>
+                                    <String fx:value="Two"/>
+                                    <String fx:value="Three"/>
+                                    <String fx:value="Four"/>
+                                    <String fx:value="Five"/>
+                                </FXCollections>
+                            </items>
+                        </TableView>
+                    </children>
+                </StackPane>       
+            </content>
+        </Tab>
+        <Tab text="%tab.tree.label" >                    
+            <content>
+                <StackPane styleClass="container-pane" >
+                    <children>
+                        <TreeView id="dataTreeView" fx:id="dataTreeView" prefHeight="50.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
+                            <root>
+                                <TreeItem expanded="true" >
+                                    <value>
+                                        <String fx:value="One"/>
+                                    </value>
+                                    <children>
+                                        <TreeItem expanded="true" >
+                                            <value>
+                                                <String fx:value="Two"/>
+                                            </value>
+                                            <children>
+                                                <TreeItem expanded="true" >
+                                                    <value>
+                                                        <String fx:value="Tree"/>
+                                                    </value>
+                                                    <children>
+                                                        <TreeItem expanded="true" >
+                                                            <value>
+                                                                <String fx:value="Four"/>
+                                                            </value>
+                                                            <children>
+                                                                <TreeItem expanded="true" >
+                                                                    <value>
+                                                                        <String fx:value="Five"/>
+                                                                    </value>
+                                                                </TreeItem>                                                        
+                                                            </children>
+                                                        </TreeItem>                                                        
+                                                    </children>
+                                                </TreeItem>
+                                            </children>
+                                        </TreeItem>
+                                    </children>
+                                </TreeItem>
+                            </root>
+                        </TreeView>
+                    </children>
+                </StackPane>       
+            </content>
+        </Tab>
+        <Tab text="%tab.treetable.label">                    
+            <content>
+                <StackPane styleClass="container-pane" >
+                    <children>
+                        <TreeTableView id="dataTreeTableView" fx:id="dataTreeTableView" minHeight="50.0" prefHeight="50.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
+                            <columns>
+                                <TreeTableColumn id="dataTreeTableViewCol0" fx:id="dataTreeTableViewCol0" text="%form.data.key.column" minWidth="200.0" maxWidth="200.0" />
+                                <TreeTableColumn id="dataTreeTableViewCol1" fx:id="dataTreeTableViewCol1" text="%form.data.value.column" />
+                            </columns>
+                            <root>
+                                <TreeItem expanded="true" >
+                                    <value>
+                                        <String fx:value="One"/>
+                                    </value>
+                                    <children>
+                                        <TreeItem expanded="true" >
+                                            <value>
+                                                <String fx:value="Two"/>
+                                            </value>
+                                            <children>
+                                                <TreeItem expanded="true" >
+                                                    <value>
+                                                        <String fx:value="Three"/>
+                                                    </value>
+                                                    <children>
+                                                        <TreeItem expanded="true" >
+                                                            <value>
+                                                                <String fx:value="Four"/>
+                                                            </value>
+                                                            <children>
+                                                                <TreeItem expanded="true" >
+                                                                    <value>
+                                                                        <String fx:value="Five"/>
+                                                                    </value>
+                                                                </TreeItem>                                                        
+                                                            </children>
+                                                        </TreeItem>                                                        
+                                                    </children>
+                                                </TreeItem>
+                                            </children>
+                                        </TreeItem>
+                                    </children>
+                                </TreeItem>
+                            </root>
+                        </TreeTableView>
+                    </children>
+                </StackPane>       
+            </content>
+        </Tab>
+        <Tab text="%tab.custom.label" >
+            <content>
+                <StackPane styleClass="container-pane" >
+                    <children>
+                        <GridPane id="customPane" fx:id="customPane" >
+                            <columnConstraints>        
+                                <ColumnConstraints hgrow="NEVER" />
+                                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                            </columnConstraints>
+                            <rowConstraints>        
+                                <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="NEVER" />
+                                <RowConstraints minHeight="2.0" vgrow="ALWAYS" />
+                            </rowConstraints>
+                            <children>
+                                <Label id="directionLabel" fx:id="directionLabel" text="%form.direction.label" GridPane.rowIndex="0" />
+                                <ComboBox id="directionCombo" fx:id="directionCombo" promptText="%form.direction.prompt" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <buttonCell>
+                                        <DirectionListCell/>
+                                    </buttonCell>
+                                    <cellFactory>
+                                        <DirectionListCellFactory/>
+                                    </cellFactory>
+                                    <tooltip>
+                                        <Tooltip text="%form.direction.selector.tip"/>
+                                    </tooltip>                                                                        
+                                </ComboBox>
+                                <DirectionSelector id="directionSelector" fx:id="directionSelector" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" >
+                                    <tooltip>
+                                        <Tooltip text="%form.direction.selector.tip"/>
+                                    </tooltip>                                                                        
+                                </DirectionSelector>
+                            </children>
+                        </GridPane>                       
+                    </children>
+                </StackPane>       
+            </content>
+        </Tab>
+    </tabs>
+</TabPane>
