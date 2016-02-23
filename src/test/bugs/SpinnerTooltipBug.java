@@ -13,7 +13,6 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import static javafx.application.Application.launch;
 
 /**
  * L'infobulle placée sur le spinner n'est pas placée sur son éditeur.

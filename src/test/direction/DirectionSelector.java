@@ -169,6 +169,8 @@ public final class DirectionSelector extends Region {
                 setDirection(Direction.WEST);
                 keyEvent.consume();
                 break;
+            default:	
+                // Ne rien faire.
         }
     }
 
