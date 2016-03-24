@@ -163,7 +163,7 @@ public final class CodeForm extends StackPane {
         final Label colorLabel = new Label();
         colorLabel.setId("colorLabel");
         colorLabel.setText(bundle.getString("form.color.label"));
-        GridPane.setConstraints(kidsLabel, 0, 5);
+        GridPane.setConstraints(colorLabel, 0, 5);
         final ColorPicker colorPicker = new ColorPicker();
         colorPicker.setId("colorPicker");
         colorPicker.setTooltip(new Tooltip(bundle.getString("form.color.tip")));
