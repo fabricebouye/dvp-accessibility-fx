@@ -121,9 +121,10 @@ public final class Main extends Application {
     // 2 - comment l'assistant notifie l'utilisateur des modifications de valeurs dans le graphe.    
     private void test4() {
         final PieChart pieChart = new PieChart();
-        pieChart.getData().add(new PieChart.Data("Windows", 75));
-        pieChart.getData().add(new PieChart.Data("Linux", 20));
-        pieChart.getData().add(new PieChart.Data("Mac OS X", 5));
+        pieChart.setTitle(I18N.getString("pie-chart.title"));
+        pieChart.getData().add(new PieChart.Data(I18N.getString("pie-chart.series1.label"), 75));
+        pieChart.getData().add(new PieChart.Data(I18N.getString("pie-chart.series2.label"), 20));
+        pieChart.getData().add(new PieChart.Data(I18N.getString("pie-chart.series3.label"), 5));
         VBox.setVgrow(pieChart, Priority.ALWAYS);
         final Button randomButton = new Button(I18N.getString("chart.action.random.label"));
         randomButton.setTooltip(new Tooltip(I18N.getString("chart.action.random.tip")));
@@ -149,7 +150,9 @@ public final class Main extends Application {
     // 2 - comment l'assistant notifie l'utilisateur des modifications de valeurs dans le graphe.    
     private void test5() {
         final NumberAxis xAxis = new NumberAxis(0, 10, 2);
+        xAxis.setLabel(I18N.getString("line-chart.abscisses.label"));
         final NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel(I18N.getString("line-chart.ordinates.label"));
         yAxis.setAutoRanging(true);
         final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
         resetLineChartSeries(lineChart, 2);
@@ -168,12 +171,13 @@ public final class Main extends Application {
     }
 
     private void resetLineChartSeries(final LineChart<Number, Number> lineChart, final int value) {
+        lineChart.setTitle(String.format(I18N.getString("line-chart.title.pattern"), value));
         LineChart.Series<Number, Number> series = lineChart.getData().isEmpty() ? null : lineChart.getData().get(0);
         if (series == null) {
             series = new LineChart.Series<>();
             lineChart.getData().add(series);
         }
-        series.setName(String.format("Puissance de %d", value));
+        series.setName(String.format(I18N.getString("line-chart.series.pattern"), value));
         series.getData().clear();
         final int maxX = (int) ((NumberAxis) lineChart.getXAxis()).getUpperBound();
         final List<LineChart.Data<Number, Number>> data = IntStream.rangeClosed(0, maxX)
@@ -187,8 +191,8 @@ public final class Main extends Application {
     private void test6() {
         final BulletGraph bulletChart = new BulletGraph();
         bulletChart.setOrientation(Orientation.VERTICAL);
-        bulletChart.setTitle("Revenus 2005");
-        bulletChart.setDescription("Milliers d'Euro €");
+        bulletChart.setTitle(I18N.getString("bullet-graph.title"));
+        bulletChart.setDescription(I18N.getString("bullet-graph.description"));
         bulletChart.getAxis().setUpperBound(400);
         bulletChart.setPerformanceMeasure(350);
         bulletChart.setComparativeMeasure(125);
