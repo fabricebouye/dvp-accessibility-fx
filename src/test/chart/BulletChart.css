@@ -6,7 +6,7 @@
 }  
 .bullet-chart:vertical {  
     -fx-pref-width: 80px;  
-    -fx-pre-height: 250px;  
+    -fx-pref-height: 250px;  
     -fx-padding: 3px 10px 6px 3px;  
 }  
 .bullet-chart .title-flow {  
