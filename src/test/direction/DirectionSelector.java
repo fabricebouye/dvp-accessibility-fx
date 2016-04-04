@@ -7,6 +7,7 @@
  */
 package test.direction;
 
+import java.util.Arrays;
 import javafx.beans.Observable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -26,6 +27,7 @@ import javafx.scene.shape.ClosePath;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import test.Main;
 
 /**
  * Contrôle customise qui permet de sélectionner une direction dans une rose des vents.
@@ -50,6 +52,9 @@ public final class DirectionSelector extends Region {
         setId("directionSelector");
         getStyleClass().add("direction-selector");
         setAccessibleRole(AccessibleRole.BUTTON);
+        setAccessibleRoleDescription(Main.I18N.getString("direction-editor.accessible.role"));
+        setAccessibleHelp(Main.I18N.getString("direction-editor.accessible.help"));
+        setAccessibleText(Main.I18N.getString("direction-editor.accessible.state.none"));
         tooltipProperty().addListener(tooltipChangeListener);
         //
         background = new Region();
@@ -83,6 +88,18 @@ public final class DirectionSelector extends Region {
         south.addEventFilter(MouseEvent.MOUSE_PRESSED, this::handleMousePressed);
         west.addEventFilter(MouseEvent.MOUSE_PRESSED, this::handleMousePressed);
         center.addEventFilter(MouseEvent.MOUSE_PRESSED, this::handleMousePressed);
+        //
+        north.addEventFilter(MouseEvent.MOUSE_MOVED, this::handleMouseMoved);
+        east.addEventFilter(MouseEvent.MOUSE_MOVED, this::handleMouseMoved);
+        south.addEventFilter(MouseEvent.MOUSE_MOVED, this::handleMouseMoved);
+        west.addEventFilter(MouseEvent.MOUSE_MOVED, this::handleMouseMoved);
+        center.addEventFilter(MouseEvent.MOUSE_MOVED, this::handleMouseMoved);
+        //
+        north.addEventFilter(MouseEvent.MOUSE_EXITED, this::handleMouseExited);
+        east.addEventFilter(MouseEvent.MOUSE_EXITED, this::handleMouseExited);
+        south.addEventFilter(MouseEvent.MOUSE_EXITED, this::handleMouseExited);
+        west.addEventFilter(MouseEvent.MOUSE_EXITED, this::handleMouseExited);
+        center.addEventFilter(MouseEvent.MOUSE_EXITED, this::handleMouseExited);
         // Réeagir au changement de valeur de la direction.
         directionProperty().addListener(this::handleDirectionChanged);
     }
@@ -150,8 +167,7 @@ public final class DirectionSelector extends Region {
      * @param keyEvent Évènement clavier.
      */
     private void handleKeyPressed(final KeyEvent keyEvent) {
-        // Consommer l'évènement est néecessaire ici, car sinon le focus repart sur le composant précédent quand on appuie sur UP par exemple.
-        // Note : l'API de gestion du focus doit rendue publique dans le JDK 9, ce qui permettra peut-être de corriger ce soucis.
+        // Tentative de faire remonter le déplacement du curseur auprès de l'assitant.
         switch (keyEvent.getCode()) {
             case UP:
                 setDirection(Direction.NORTH);
@@ -173,13 +189,13 @@ public final class DirectionSelector extends Region {
                 setDirection(Direction.NONE);
                 keyEvent.consume();
                 break;
-            default:	
-                // Ne rien faire.
+            default:
+            // Ne rien faire.
         }
     }
 
     /**
-     * Gestion des évènements souris.
+     * Gestion des évènements souris : pression.
      * @param mouseEvent Évènement souris.
      */
     private void handleMousePressed(final MouseEvent mouseEvent) {
@@ -208,6 +224,30 @@ public final class DirectionSelector extends Region {
     }
 
     /**
+     * Gestion des évènements souris : déplacement.
+     * @param mouseEvent Évènement souris.
+     */
+    private void handleMouseMoved(final MouseEvent mouseEvent) {
+        handleMouseExited(mouseEvent);
+        // Place un texte accessible sur la zone réactives.
+        final Node node = (Node) mouseEvent.getSource();
+        final String accessibleTextKey = String.format("direction-editor.accessible.shape.%s", node.getId());
+        node.setAccessibleText(Main.I18N.getString(accessibleTextKey));
+        mouseEvent.consume();
+    }
+
+    /**
+     * Gestion des évènements souris : sortie.
+     * @param mouseEvent Évènement souris.
+     */
+    private void handleMouseExited(final MouseEvent mouseEvent) {
+        // Retire le texte accessible de tous les zones réactives.
+        Arrays.asList(north, east, south, west, center)
+                .stream()
+                .forEach(node -> node.setAccessibleText(null));
+    }
+
+    /**
      * Réaction aux changements de valeur de la direction.
      * @param observable Valeur observable.
      */
@@ -217,11 +257,15 @@ public final class DirectionSelector extends Region {
         east.pseudoClassStateChanged(ACTIVATED, direction == Direction.EAST);
         south.pseudoClassStateChanged(ACTIVATED, direction == Direction.SOUTH);
         west.pseudoClassStateChanged(ACTIVATED, direction == Direction.WEST);
+        // Modification du texte acessible du contrôle.
+        final String accessibleTextKey = String.format("direction-editor.accessible.state.%s", direction.name().toLowerCase());
+        final String accessibleText = Main.I18N.getString(accessibleTextKey);
+        setAccessibleText(accessibleText);
     }
 
     /**
-    * Invoqué lorsque l'infobulle change.
-    */
+     * Invoqué lorsque l'infobulle change.
+     */
     private final ChangeListener<Tooltip> tooltipChangeListener = (observable, oldValue, newValue) -> {
         // Désinstalle l'ancienne infobulle.
         if (oldValue != null) {
