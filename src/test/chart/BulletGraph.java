@@ -9,6 +9,9 @@ package test.chart;
 
 import java.util.stream.IntStream;
 import javafx.beans.InvalidationListener;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
@@ -26,7 +29,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Side;
 import javafx.geometry.VPos;
-import javafx.scene.AccessibleRole;
 import javafx.scene.Group;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ValueAxis;
@@ -34,6 +36,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import test.Main;
 
 /** 
  * Implementation rapide et sale d'un <a href=\"https://en.wikipedia.org/wiki/Bullet_graph\">bullet chart</a>. 
@@ -80,14 +83,72 @@ public final class BulletGraph extends Region {
         //  
         axis.setSide(Side.BOTTOM);
         getChildren().add(axis);
-        //  
+        //
+        accessibleTextProperty().bind(new StringBinding() {
+            {
+                bind(titleProperty(), descriptionProperty());
+            }
+
+            @Override
+            public void dispose() {
+                bind(titleProperty(), descriptionProperty());
+            }
+
+            @Override
+            protected String computeValue() {
+                final String title = titleProperty().get();
+                final String description = descriptionProperty().get();
+                final StringBuilder result = new StringBuilder();
+                result.append(title);
+                if (result.length() > 0) {
+                    result.append("\n");
+                }
+                result.append(description);
+                return result.toString();
+            }
+        });
+        //
         performanceMeasureMarker.getStyleClass().add("performance-measure-marker"); // NOI18N.  
         performanceMeasureTip.textProperty().bind(performanceMeasureProperty().asString());
         Tooltip.install(performanceMeasureMarker, performanceMeasureTip);
+        performanceMeasureMarker.accessibleTextProperty().bind(new StringBinding() {
+            {
+                bind(performanceMeasure);
+            }
+
+            @Override
+            public void dispose() {
+                unbind(performanceMeasure);
+            }
+
+            @Override
+            protected String computeValue() {
+                final double value = performanceMeasure.get();
+                final String key = "bullet-graph.performance-mesure.accessible.text"; // NOI18N.  
+                return String.format(Main.I18N.getString(key), value);
+            }
+        });
         //  
         comparativeMeasureMarker.getStyleClass().add("comparative-measure-marker"); // NOI18N.  
         comparativeMeasureTip.textProperty().bind(comparativeMeasureProperty().asString());
         Tooltip.install(comparativeMeasureMarker, comparativeMeasureTip);
+        comparativeMeasureMarker.accessibleTextProperty().bind(new StringBinding() {
+            {
+                bind(comparativeMeasure);
+            }
+
+            @Override
+            public void dispose() {
+                unbind(comparativeMeasure);
+            }
+
+            @Override
+            protected String computeValue() {
+                final double value = comparativeMeasure.get();
+                final String key = "bullet-graph.comparative-mesure.accessible.text"; // NOI18N.  
+                return String.format(Main.I18N.getString(key), value);
+            }
+        });
         //  
         plotArea.getStyleClass().add("plot-area"); // NOI18N.  
         getChildren().add(plotArea);
@@ -133,9 +194,12 @@ public final class BulletGraph extends Region {
         // Create new ones.  
         IntStream.range(0, quantitativeScale.size())
                 .forEach(index -> {
-                    Region region = new Region();
+                    final Region region = new Region();
                     final String style = String.format("quantitative-scale%d", index + 1); // NOI18N.  
                     region.getStyleClass().add(style);
+                    final double value = quantitativeScale.get(index);
+                    final String key = "bullet-graph.quantitative-mesure.accessible.text"; // NOI18N.  
+                    region.setAccessibleText(String.format(Main.I18N.getString(key), index + 1, value));
                     quantitativeScaleGroup.getChildren().add(region);
                 });
     }
